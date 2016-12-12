@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +6,32 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+  public title = 'app works!';
+public image = 'http://sdtimes.com/wp-content/uploads/2016/09/0915.sdt-angular.png'
+  @ViewChild('myinput')
+  public input:ElementRef
+
+  public value:string;
+
+  public isPortrait:boolean = true;
+  public width:number = 100;
+  public alt:string = 'Angular';
+
+  public person = [{
+    name:'Igor',
+    surname: 'Nepipenko'
+  },{
+    name:'Vova',
+    surname: 'Loban'
+  }]
+
+  public currentPersone:any;
+
+  public constructor(){
+    this.currentPersone = this.person[0]
+  }
+
+  public getValue(ev:KeyboardEvent){
+    console.log(ev)
+  }
 }

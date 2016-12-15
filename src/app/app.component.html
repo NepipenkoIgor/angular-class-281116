@@ -1,9 +1,8 @@
-<h1>
-  {{currentPersone.name}} {{currentPersone?.surname}}
-</h1>
+<!--<h1>-->
+  <!--{{currentPersone.name}} {{currentPersone?.surname}}-->
+<!--</h1>-->
 
-<input type="text" [ngModel]="value" (ngModelChange)="value=$event">
-<p>{{value}}</p>
+<input type="text" log-directive [(ngModel)]="person">
 
 <img [class.portrait]="isPortrait" [class.portrait1]="isPortrait"
      [attr.alt]="alt" [style.width.px]="width" [src]="image">

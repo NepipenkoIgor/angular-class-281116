@@ -17,13 +17,7 @@ public image = 'http://sdtimes.com/wp-content/uploads/2016/09/0915.sdt-angular.p
   public width:number = 100;
   public alt:string = 'Angular';
 
-  public person = [{
-    name:'Igor',
-    surname: 'Nepipenko'
-  },{
-    name:'Vova',
-    surname: 'Loban'
-  }]
+  public person:string = ''
 
   public currentPersone:any;
 

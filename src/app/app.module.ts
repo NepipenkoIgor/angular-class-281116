@@ -4,11 +4,15 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { ProfileComponent } from './profile/profile.component';
+import { InputLogDirective } from './input-log.directive';
+import { UsersPipe } from './users.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProfileComponent
+    ProfileComponent,
+    InputLogDirective,
+    UsersPipe
   ],
   imports: [
     BrowserModule,

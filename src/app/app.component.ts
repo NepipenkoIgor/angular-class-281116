@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef,Inject } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +21,8 @@ public image = 'http://sdtimes.com/wp-content/uploads/2016/09/0915.sdt-angular.p
 
   public currentPersone:any;
 
-  public constructor(){
+  public constructor(@Inject('SizeService') private _sizeService){
+    console.log(this._sizeService.run())
     this.currentPersone = this.person[0]
   }
 

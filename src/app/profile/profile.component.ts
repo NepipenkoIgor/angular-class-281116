@@ -1,6 +1,11 @@
-import {Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, Inject} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
+
+import {ProfileService} from './profile.service'
+
+
+// по чему я могу менеджерить Type,string, token from angular
 
 @Component({
   selector: 'app-profile',
@@ -9,6 +14,7 @@ import {Observer} from "rxjs/Observer";
   //encapsulation:ViewEncapsulation.Native
 })
 export class ProfileComponent implements OnInit {
+
 
 
   public isActive: boolean = true;
@@ -32,80 +38,12 @@ export class ProfileComponent implements OnInit {
   @Output()
   public choseCurrentPersone: EventEmitter<{name: string, surname: string}> = new EventEmitter()
 
-
-  public users = [{"firstName": "Игорь", "surname": "Савин", "country": "ru"}, {
-    "firstName": "Андрей",
-    "surname": "Иващенко",
-    "photo": "http://i.imgur.com/NktCSrP.png",
-    "country": "ua"
-  }, {
-    "firstName": "Андрей",
-    "surname": "Еременко",
-    "photo": "http://i.imgur.com/OVMrkuw.png",
-    "country": "ru"
-  }, {"firstName": "Мария", "surname": "Мишина", "country": "ru"}, {
-    "firstName": "Ростислав",
-    "surname": "Сергеевич",
-    "country": "ua"
-  }, {
-    "firstName": "Артем",
-    "surname": "Насековский",
-    "photo": "http://i.imgur.com/L4O3779.jpg",
-    "country": "ua"
-  }, {
-    "firstName": "Максим",
-    "surname": "Максимов",
-    "photo": "http://i.imgur.com/xRmHiY3.jpg",
-    "country": "ru"
-  }, {
-    "firstName": "Степан",
-    "surname": "Жарычев",
-    "photo": "http://i.imgur.com/OyltkCa.jpg",
-    "country": "ru"
-  }, {
-    "firstName": "Александр",
-    "surname": "Ширко",
-    "photo": "http://i.imgur.com/Ils1CJS.jpg",
-    "country": "by"
-  }, {
-    "firstName": "Максим",
-    "surname": "Водянов",
-    "photo": "http://i.imgur.com/a1vga3S.jpg",
-    "country": "ru"
-  }, {"firstName": "Stephan", "surname": "S.", "country": "il"}, {
-    "firstName": "Дмитрий",
-    "surname": "Калдузов",
-    "photo": "http://i.imgur.com/cmuDqAx.png",
-    "country": "ru"
-  }, {
-    "firstName": "Алексей",
-    "surname": "Федоров",
-    "photo": "http://i.imgur.com/2SCTdms.jpg",
-    "country": "ru"
-  }, {
-    "firstName": "Artsiom",
-    "surname": "Menshakou",
-    "photo": "http://i.imgur.com/GpSjLDL.jpg",
-    "country": "by"
-  }, {"firstName": "Vladimir", "surname": "Chepkasov", "country": "ru"}, {
-    "firstName": "Anna",
-    "surname": "Arteeva",
-    "photo": "http://i.imgur.com/g8CC1PT.jpg",
-    "country": "nl"
-  }, {
-    "firstName": "Максим",
-    "surname": "Карпинка",
-    "photo": "http://i.imgur.com/AqSem9X.jpg",
-    "country": "ru"
-  }, {
-    "firstName": "Денис",
-    "surname": "Потапов",
-    "photo": "http://i.imgur.com/clVT6ay.jpg",
-    "country": "ru"
-  }, {"firstName": "Константин", "surname": "Гришин", "photo": "http://i.imgur.com/5b0MCKb.png", "country": "ua"}]
+  public users:any[] = [] ;
 
 
-  constructor() {
+  constructor(private _profileService:ProfileService) {
+    //* async ???????
+    this._profileService.getUsers().subscribe(user=>this.users.push(user))
   }
 
   ngOnInit() {

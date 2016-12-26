@@ -19,7 +19,7 @@ export class ProfileService {
 
     return this._http.get(`${this.url}courses/groups/api/participants?key=8k5pxi`)
       .map(res => res.json()) // [user1,user2] -> --user1--user-2
-      .mergeMap(users => Observable.from(users).filter((user: any) => user.photo))
+      //.mergeMap(users => Observable.from(users).filter((user: any) => user.photo))
       .catch(err => Observable.of([]))
 
     // return [{"firstName": "Игорь", "surname": "Савин", "country": "ru"}, {

@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HttpModule} from '@angular/http';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {AppComponent} from './app.component';
 import {ProfileComponent} from './profile/profile.component';
@@ -14,22 +14,23 @@ import {ViewportService} from './viewport.service'
 @NgModule({
   declarations: [
     AppComponent,
-    ProfileComponent,
-    InputLogDirective,
-    UsersPipe
+   // ProfileComponent,
+   // InputLogDirective,
+   // UsersPipe
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    ReactiveFormsModule
+   // HttpModule
   ],
-  providers: [{provide: ProfileService, useClass:ProfileService},
-    {provide: token, useValue: 'http://learn.javascript.ru/'},
-    ViewportService, {
-      provide: 'SizeService', useFactory: (view: ViewportService) => {
-        return view.determineService();
-      }, deps: [ViewportService]
-    }],
+  // providers: [{provide: ProfileService, useClass:ProfileService},
+  //   {provide: token, useValue: 'http://learn.javascript.ru/'},
+  //   ViewportService, {
+  //     provide: 'SizeService', useFactory: (view: ViewportService) => {
+  //       return view.determineService();
+  //     }, deps: [ViewportService]
+  //   }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,11 +1,76 @@
 <!--<h1>-->
-  <!--{{currentPersone.name}} {{currentPersone?.surname}}-->
+<!--{{currentPersone.name}} {{currentPersone?.surname}}-->
 <!--</h1>-->
 
-<input type="text" log-directive [(ngModel)]="person">
+<!--<input type="text" log-directive [(ngModel)]="person">-->
 
-<img [class.portrait]="isPortrait" [class.portrait1]="isPortrait"
-     [attr.alt]="alt" [style.width.px]="width" [src]="image">
+<!--<img [class.portrait]="isPortrait" [class.portrait1]="isPortrait"-->
+<!--[attr.alt]="alt" [style.width.px]="width" [src]="image">-->
 
 
-<app-profile [person]="person" (choseCurrentPersone)="currentPersone=$event"></app-profile>
+<!--<app-profile [person]="person" (choseCurrentPersone)="currentPersone=$event"></app-profile>-->
+
+
+<!-- NgModel , NgModelGroupe, NgForm-->
+<!-- ngModel => FormControl-->
+<!-- ngForm => FormGroup-->
+<!--??standalone-->
+<!--??no html-->
+<form #f="ngForm" (ngSubmit)="submit(f.value)">
+  <div>Username</div>
+  <input type="text" name="username" ngModel required/>
+  <div>SSN</div>
+  <input type="text" name="ssn" ngModel required/>
+
+  <div ngModelGroup="passwordGroupe">
+    <div>Password</div>
+    <input type="password" name="password" ngModel required/>
+    <div>Confirm password</div>
+    <input type="password" name="pconfirm" ngModel required/>
+  </div>
+  <button type="submit">Submit</button>
+</form>
+<pre>{{f.value | json}}</pre>
+<pre>{{f.valid}}</pre>
+
+
+<!-- FormControl, FormGroup,FormArray -->
+<!-- FormBuilder -->
+<!--formGroupName ??? as [formGroup] ????  and Group valid -->
+<form [formGroup]="formModel" (ngSubmit)="submit(f.value)">
+  <div>Username</div>
+  <input type="text" formControlName="username"/>
+  <div>SSN</div>
+  <input type="text" formControlName="ssn"/>
+
+  <div formGroupName="passwordGroup">
+    <div>Password</div>
+    <input formControlName="password"/>
+    <div>Confirm password</div>
+    <input formControlName="pconfirm"/>
+  </div>
+  <button type="submit">Submit</button>
+</form>
+<pre>{{formModel.value | json}}</pre>
+<pre>{{formModel.valid}}</pre>
+
+<!-- ??? FormArray-->
+<!--<pre>{{formModel.value | json}}</pre>-->
+<!--<pre>{{formModel.valid}}</pre>-->
+
+<!--<form [formGroup]="formArrayModel ">-->
+  <!--<ul formArrayName="emails">-->
+    <!--<li *ngFor="let e of formArrayModel.get('emails').controls; let i =index">-->
+      <!--{{e | json}}-->
+      <!--&lt;!&ndash;<input type="text" formControlName="">&ndash;&gt;-->
+    <!--</li>-->
+  <!--</ul>-->
+  <!--<button (click)="addEmail()">Add Email</button>-->
+<!--</form>-->
+<!--<pre>{{formArrayModel.value | json}}</pre>-->
+<!--<pre>{{formArrayModel.valid}}</pre>-->
+
+
+<!--1) formGroupName ??? as [formGroup]-->
+<!--2) FormArray-->
+<!--3) FormBuilder => Group valid-->

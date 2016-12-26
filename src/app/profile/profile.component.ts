@@ -1,7 +1,8 @@
 import {Component, OnInit, Input, Output, EventEmitter, Inject} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
-
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/switchMap';
 import {ProfileService} from './profile.service'
 
 
@@ -38,12 +39,13 @@ export class ProfileComponent implements OnInit {
   @Output()
   public choseCurrentPersone: EventEmitter<{name: string, surname: string}> = new EventEmitter()
 
-  public users:any[] = [] ;
+  public users:Observable<any> ;
 
 
   constructor(private _profileService:ProfileService) {
     //* async ???????
-    this._profileService.getUsers().subscribe(user=>this.users.push(user))
+    this.users = Observable.of('').switchMap(()=>this._profileService.getUsers())
+   // this._profileService.getUsers().subscribe(user=>this.users.push(user))
   }
 
   ngOnInit() {

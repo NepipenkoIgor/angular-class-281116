@@ -17,18 +17,17 @@ import {ProfileService} from './profile.service'
 export class ProfileComponent implements OnInit {
 
 
-
   public isActive: boolean = true;
   public width: number = 30;
   public myTemplate: number = 1;
 
-  public time:Observable<string>= new Observable<string>((observer:Observer<string>)=>{
-    setInterval(()=>observer.next(new Date().toString()),1000)
+  public time: Observable<string> = new Observable<string>((observer: Observer<string>) => {
+    setInterval(() => observer.next(new Date().toString()), 1000)
   })
 
-  public mySelary:number = 3500.1324;
-  public percent1:number = 0.23;
-  public percent2:number = 1.236465;
+  public mySelary: number = 3500.1324;
+  public percent1: number = 0.23;
+  public percent2: number = 1.236465;
 
   // входящие данные
   @Input()
@@ -39,13 +38,18 @@ export class ProfileComponent implements OnInit {
   @Output()
   public choseCurrentPersone: EventEmitter<{name: string, surname: string}> = new EventEmitter()
 
-  public users:Observable<any> ;
+  public users: Observable<any> ;
 
 
-  constructor(private _profileService:ProfileService) {
+  constructor(private _profileService: ProfileService) {
     //* async ???????
-    this.users = Observable.of('').switchMap(()=>this._profileService.getUsers())
-   // this._profileService.getUsers().subscribe(user=>this.users.push(user))
+    // this._profileService.getUsers().subscribe((users) => {
+    //   this.users = users;
+    // })
+
+    this.users = this._profileService.getUsers();
+    //this.users = Observable.of('').switchMap(()=>this._profileService.getUsers())
+    // this._profileService.getUsers().subscribe(user=>this.users.push(user))
   }
 
   ngOnInit() {

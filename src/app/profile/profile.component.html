@@ -5,7 +5,7 @@
 <!--2. {{person[1]?.name}} {{person[1]?.surname}}-->
 <!--</p>-->
 <!-- index, first, last, even, odd -->
-<p *ngFor="let user of users |async| usersFilter:person; let i=index; let isOdd= odd" [ngClass]="{background:isOdd}">
+<p *ngFor="let user of users | async | usersFilter:person; let i=index; let isOdd= odd" [ngClass]="{background:isOdd}">
   {{i+1}}. <img [src]="user?.photo" *ngIf="user?.photo" [ngStyle]="{'width.px':width}" alt=""> {{user?.firstName}}
   {{user.surname}}
 </p>
@@ -28,7 +28,7 @@
 <p>percent1 {{percent1 | number}}</p>
 <p>percent2 {{percent2 | percent:'1.1-2'}}</p>
 
-<p>{{users | json}}</p>
+<!--<p>{{users | json}}</p>-->
 
 <div>
   <span ngNonBindable>

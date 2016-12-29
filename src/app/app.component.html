@@ -1,3 +1,15 @@
+
+<app-nav></app-nav>
+<router-outlet></router-outlet>
+
+<!--1) multi router-outlet-->
+<!--2) lazy-loading-->
+<!--3) вложеные состояния-->
+<!--4) pathMatch ))))-->
+
+
+
+
 <!--<h1>-->
 <!--{{currentPersone.name}} {{currentPersone?.surname}}-->
 <!--</h1>-->
@@ -16,57 +28,64 @@
 <!-- ngForm => FormGroup-->
 <!--??standalone-->
 <!--??no html-->
-<form #f="ngForm" (ngSubmit)="submit(f.value)">
-  <div>Username</div>
-  <input type="text" name="username" ngModel required/>
-  <div>SSN</div>
-  <input type="text" name="ssn" ngModel required/>
 
-  <div ngModelGroup="passwordGroupe">
-    <div>Password</div>
-    <input type="password" name="password" ngModel required/>
-    <div>Confirm password</div>
-    <input type="password" name="pconfirm" ngModel required/>
-  </div>
-  <button type="submit">Submit</button>
-</form>
-<pre>{{f.value | json}}</pre>
-<pre>{{f.valid}}</pre>
+
+<!--<form #f="ngForm" (ngSubmit)="submit(f.value)">-->
+  <!--<div>Username</div>-->
+  <!--<input type="text" name="username" nospecial ngModel required/>-->
+  <!--<div>SSN</div>-->
+  <!--<input type="text" name="ssn" ssn ngModel required/>-->
+
+  <!--<div ngModelGroup="passwordGroupe">-->
+    <!--<div>Password</div>-->
+    <!--<input type="password" name="password" ngModel required/>-->
+    <!--<div>Confirm password</div>-->
+    <!--<input type="password" name="pconfirm" ngModel required/>-->
+  <!--</div>-->
+  <!--<button type="submit">Submit</button>-->
+<!--</form>-->
+
+
+<!--<pre>{{f.value | json}}</pre>-->
+<!--<pre>Fomm isValid: {{f.valid}}</pre>-->
+<!--<pre>SSN hasError ssn: {{f.controls['ssn']?.hasError('ssn')}}</pre>-->
+<!--<pre>Name hasError ssn: {{f.controls['username']?.hasError('nospecial')}}</pre>-->
 
 
 <!-- FormControl, FormGroup,FormArray -->
 <!-- FormBuilder -->
 <!--formGroupName ??? as [formGroup] ????  and Group valid -->
-<form [formGroup]="formModel" (ngSubmit)="submit(f.value)">
-  <div>Username</div>
-  <input type="text" formControlName="username"/>
-  <div>SSN</div>
-  <input type="text" formControlName="ssn"/>
+<!--<form [formGroup]="formModel" (ngSubmit)="submit(f.value)">-->
+  <!--<div>Username</div>-->
+  <!--<input type="text" [formControl]="formModel.controls['username']"/>-->
+  <!--<div>SSN</div>-->
+  <!--<input type="text" [formControl]="formModel.controls['ssn']"/>-->
 
-  <div formGroupName="passwordGroup">
-    <div>Password</div>
-    <input formControlName="password"/>
-    <div>Confirm password</div>
-    <input formControlName="pconfirm"/>
-  </div>
-  <button type="submit">Submit</button>
-</form>
-<pre>{{formModel.value | json}}</pre>
-<pre>{{formModel.valid}}</pre>
+  <!--<div [formGroup]="formModel.controls['passwordGroup']">-->
+    <!--<div>Password</div>-->
+    <!--<input [formControl]="formModel.controls['passwordGroup'].controls['password']"/>-->
+    <!--<div>Confirm password</div>-->
+    <!--<input [formControl]="formModel.get('passwordGroup').controls['pconfirm']"/>-->
+  <!--</div>-->
+  <!--<button type="submit">Submit</button>-->
+<!--</form>-->
+<!--<pre>{{formModel.value | json}}</pre>-->
+<!--<pre>Fomm isValid: {{formModel.valid}}</pre>-->
+<!--<pre>FormGroupPassword hasError equal: {{formModel.controls['passwordGroup'].hasError('equal')}}</pre>-->
 
 <!-- ??? FormArray-->
 <!--<pre>{{formModel.value | json}}</pre>-->
 <!--<pre>{{formModel.valid}}</pre>-->
 
 <!--<form [formGroup]="formArrayModel ">-->
-  <!--<ul formArrayName="emails">-->
+  <!--<ul [formGroup]="formArrayModel.controls['emails']">-->
     <!--<li *ngFor="let e of formArrayModel.get('emails').controls; let i =index">-->
-      <!--{{e | json}}-->
-      <!--&lt;!&ndash;<input type="text" formControlName="">&ndash;&gt;-->
+      <!--<input type="text" [formControl]="e">-->
     <!--</li>-->
   <!--</ul>-->
   <!--<button (click)="addEmail()">Add Email</button>-->
 <!--</form>-->
+
 <!--<pre>{{formArrayModel.value | json}}</pre>-->
 <!--<pre>{{formArrayModel.valid}}</pre>-->
 

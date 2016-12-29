@@ -1,13 +1,44 @@
 import {Component, ViewChild, ElementRef, Inject, Directive} from '@angular/core';
-import {FormControl, FormGroup, FormArray, FormBuilder, Validators,NG_VALIDATORS} from '@angular/forms';
+import {FormControl, FormGroup, FormArray, FormBuilder, Validators, NG_ASYNC_VALIDATORS,
+  NG_VALIDATORS} from '@angular/forms';
+
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/delay';
+
+function ssnValidator(control: FormControl): {[key: string]: boolean} {
+  const value = control.value || '';
+  const valid = value.match(/^\d{9}$/);
+  return valid ? null : {ssn: true}
+}
+function nameValidator(control: FormControl): Observable<{[key: string]: boolean}> {
+  const value = control.value || '';
+  const valid = value.match(/^[aA-zZ]*$/);
+  return Observable.of(valid ? null : {nospecial: true}).delay(5000)
+}
 
 @Directive({
-  selector:'[ssn]',
-  providers:[{provide:NG_VALIDATORS, useValue:ssnValidator}]
+  selector:'[ssn][ngModel]',
+  providers:[
+    {provide:NG_VALIDATORS, useValue:ssnValidator, multi:true}
+    ]
 })
-class SsnValidator{
+export class SsnValidator{
 
 }
+
+@Directive({
+  selector:'[nospecial][ngModel]',
+  providers:[
+    {provide:NG_ASYNC_VALIDATORS, useValue:nameValidator, multi:true}
+  ]
+})
+export class NameValidator{
+
+}
+
+
+
 
 @Component({
   selector: 'app-root',
@@ -40,14 +71,18 @@ export class AppComponent {
   public formArrayModel: FormGroup;
   //public username: FormControl;
 
+  // new FormGroup('',validator,asyncvalidator)
   public constructor(private _fb: FormBuilder) {
     this.formModel = this._fb.group({
-      username: ['',[Validators.required,Validators.minLength(5)]],
-      ssn: ['',this.ssnValidator],
+      username: ['', [Validators.required, Validators.minLength(5)]],
+      ssn: ['', this.ssnValidator],
       passwordGroup: this._fb.group({
-        password:['',Validators.compose([Validators.minLength(5),Validators.maxLength(7)])],
-        pconfirm:['',Validators.compose([Validators.minLength(5),Validators.maxLength(7)])],
-      },this.equalValidator)
+        password: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(7)])],
+        pconfirm: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(7)])],
+      }, {
+        // validator: this.equalValidator,
+        asyncValidator: this.asyncEqualValidator
+      })
     })
     // this.formModel = new FormGroup({
     //   username: new FormControl(),
@@ -59,7 +94,7 @@ export class AppComponent {
     // })
 
     this.formArrayModel = new FormGroup({
-      emails: new FormArray([new FormControl()])
+      emails: new FormArray([new FormControl('')])
     })
 
     //this.username = new FormControl('Igor');
@@ -71,21 +106,27 @@ export class AppComponent {
     // .subscribe((value)=>console.log(value))
   }
 
-  public equalValidator({value}:FormGroup):{[key:string]:boolean}{
-    debugger
-    const [first,...rest] = Object.keys(value || {});
+  public addEmail() {
+    (this.formArrayModel.get('emails') as FormArray).push(new FormControl(''))
+  }
+
+  public equalValidator({value}:FormGroup): {[key: string]: boolean} {
+    const [first, ...rest] = Object.keys(value || {});
     const valid = rest.every(v => value[v] === value[first])
     return valid ? null : {equal: true}
   }
 
-  public ssnValidator(control:FormControl):{[key:string]:boolean}{
-    const value = control.value || '';
-    const valid = value.match(/^\d{9}$/);
-    return valid ? null : {ssn:true}
+
+  public asyncEqualValidator({value}:FormGroup): Observable<{[key: string]: boolean}> {
+    const [first, ...rest] = Object.keys(value || {});
+    const valid = rest.every(v => value[v] === value[first])
+    return Observable.of(valid ? null : {equal: true}).delay(5000)
   }
 
-  public addEmail() {
-    (this.formArrayModel.get('emails') as FormArray).push(new FormControl())
+  public ssnValidator(control: FormControl): {[key: string]: boolean} {
+    const value = control.value || '';
+    const valid = value.match(/^\d{9}$/);
+    return valid ? null : {ssn: true}
   }
 
   public getValue(ev: KeyboardEvent) {
